@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Shoot-Projectile.sln"
+    "dotnet.defaultSolution": "shoot-projectile.sln"
 }
