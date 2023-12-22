@@ -205,7 +205,7 @@ ParticleSystemRenderer:
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
-  m_LengthScale: 4
+  m_LengthScale: 2
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
@@ -1231,7 +1231,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -1242,21 +1242,30 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: -0.014471414
-          outSlope: -0.014471414
+          value: 0.5799084
+          inSlope: 0.04317297
+          outSlope: 0.04317297
           tangentMode: 0
-          weightedMode: 2
+          weightedMode: 0
           inWeight: 0
-          outWeight: 0.63106793
+          outWeight: 0.42307687
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0.84018326
+          outSlope: 0
+          tangentMode: 5
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 1
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: -1.2423536
-          outSlope: -1.2423536
-          tangentMode: 0
-          weightedMode: 3
-          inWeight: 0.2572816
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -1288,7 +1297,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1296,21 +1305,30 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
+          inSlope: 0.019244026
+          outSlope: 1.6728935
+          tangentMode: 1
+          weightedMode: 2
+          inWeight: 0
+          outWeight: 0.16923074
+        - serializedVersion: 3
+          time: 0.5
+          value: 0.3
+          inSlope: 0.034842182
+          outSlope: 0.060393564
+          tangentMode: 1
+          weightedMode: 1
+          inWeight: 0.7076924
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
-          outSlope: 0
+          inSlope: 3.8584402
+          outSlope: 3.8584402
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0.123077154
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -1348,22 +1366,31 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
+          value: 0.5799084
+          inSlope: 0.04317297
+          outSlope: 0.04317297
           tangentMode: 0
           weightedMode: 0
+          inWeight: 0
+          outWeight: 0.42307687
+        - serializedVersion: 3
+          time: 0.5
+          value: 1
+          inSlope: 0.84018326
+          outSlope: 0
+          tangentMode: 5
+          weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 1
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
+          value: 0
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -1391,7 +1418,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    separateAxes: 0
+    separateAxes: 1
   RotationModule:
     enabled: 0
     x:
@@ -5047,7 +5074,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e9dc8e6d311cf8b45a9869326887bea7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e9dc8e6d311cf8b45a9869326887bea7,
         type: 3}
@@ -5087,6 +5114,16 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e9dc8e6d311cf8b45a9869326887bea7,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7813590141776298306, guid: e9dc8e6d311cf8b45a9869326887bea7,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7813590141776298306, guid: e9dc8e6d311cf8b45a9869326887bea7,
+        type: 3}
+      propertyPath: m_LightProbeUsage
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7813590141776298306, guid: e9dc8e6d311cf8b45a9869326887bea7,
@@ -5173,7 +5210,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 93
+  field of view: 65
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

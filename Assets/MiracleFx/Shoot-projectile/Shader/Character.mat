@@ -23,12 +23,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _LineMask:
+        m_Texture: {fileID: 2800000, guid: db1bb2c59c6059e41857ee0109d5a939, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 1, y: 1}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 208f2880e3c47d14a9632f8d97e0b78c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DisappearValue: 0
-    m_Colors: []
+    - _DisappearValue: 0.55
+    - _FresnelPow: 2.23
+    - _FresnelVal: 1.9
+    m_Colors:
+    - _FresnelCol: {r: 8, g: 5.7621703, b: 0, a: 1}
+    - _Tint: {r: 1, g: 0.4788763, b: 0, a: 1}
   m_BuildTextureStacks: []
