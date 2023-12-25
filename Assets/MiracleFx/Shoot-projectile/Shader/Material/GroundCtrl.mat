@@ -40,6 +40,6 @@ Material:
     - _DisappearValue: -0.1
     - _EdgeThickness: 0.05
     m_Colors:
-    - _EdgeCol: {r: 191.74904, g: 29.89649, b: 0, a: 0}
-    - _MainCol: {r: 6.498019, g: 5.420751, b: 3.0855367, a: 0}
+    - _EdgeCol: {r: 95.87452, g: 14.948245, b: 0, a: 0}
+    - _MainCol: {r: 1.6245048, g: 1.3551878, b: 0.7713842, a: 0}
   m_BuildTextureStacks: []
