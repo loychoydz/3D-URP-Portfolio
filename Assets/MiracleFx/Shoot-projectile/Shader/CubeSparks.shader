@@ -11,7 +11,7 @@ Shader "Miracle/Unlit/Particles/CubeSparks"
         Tags { "RenderType"="Opaque" }
         LOD 100
         // Blend SrcAlpha One
-        // Cull Off
+        Cull Off
         Zwrite Off
 
         Pass
