@@ -1,4 +1,4 @@
-Shader "Unlit/GroundCtrl"
+Shader "Miracle/Unlit/Particles/GroundCtrl"
 {
     Properties
     {
@@ -33,6 +33,7 @@ Shader "Unlit/GroundCtrl"
                 float4 vertex : POSITION;
                 float3 uv : TEXCOORD0;
                 float2 uvNoise : TEXCOORD1;
+                float4 color : COLOR;
             };
 
             struct v2f
@@ -40,6 +41,8 @@ Shader "Unlit/GroundCtrl"
                 float3 uv : TEXCOORD0;
                 float2 uvNoise : TEXCOORD1;
                 float4 vertex : SV_POSITION;
+                float4 color : COLOR;
+
             };
 
             sampler2D _MainTex, _Mask, _Noise;
@@ -53,12 +56,13 @@ Shader "Unlit/GroundCtrl"
                 o.uv.xy = TRANSFORM_TEX(v.uv.xy, _MainTex);
                 o.uvNoise =TRANSFORM_TEX(v.uvNoise, _Noise);
                 o.uv.z = v.uv.z;
+                o.color = v.color;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 col = tex2D(_MainTex, i.uv) * i.color;
                 col.xyz *= _MainCol.xyz;
                 fixed4 noise = tex2D(_Noise, i.uvNoise);
                 fixed4 mask = tex2D(_Mask, i.uv);
