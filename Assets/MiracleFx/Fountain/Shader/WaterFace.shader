@@ -1,4 +1,4 @@
-Shader "Unlit/WaterTopDown"
+Shader "Unlit/WaterFace"
 {
     Properties
     {
@@ -35,18 +35,13 @@ Shader "Unlit/WaterTopDown"
                 float3 normal : NORMAL;
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float2 uvNoise : TEXCOORD1;
-                float2 uvMask :TEXCOORD3;
             };
 
             struct v2f
             {
                 float3 normal : TEXCOORD2;
                 float2 uv : TEXCOORD0;
-                float2 uvNoise : TEXCOORD1;
                 float4 vertex : SV_POSITION;
-                float2 uvMask :TEXCOORD3;
-                float4 noiseTex : TEXCOORD4;
 
             };
 
@@ -58,20 +53,16 @@ Shader "Unlit/WaterTopDown"
             {
                 v2f o;
                 o.normal = normalize(mul(unity_ObjectToWorld, v.normal));
-                v.uvNoise.x += _WaterSpeed.z * _Time.y;
-                v.uvNoise.y += _WaterSpeed.w * _Time.y;
-
-                o.uvNoise = TRANSFORM_TEX(v.uvNoise, _Noise);
                 o.noiseTex = tex2Dlod(_Noise, float4(o.uvNoise, 0, 0));
                 v.vertex.xyz += v.normal * o.noiseTex.x * _NoisePow;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.uvMask = TRANSFORM_TEX(v.uvMask, _Mask);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
+                i.uv = i.uv * 2 - 1;
                 i.uv.x += _WaterSpeed.x * _Time.y;
                 i.uv.y += _WaterSpeed.y * _Time.y;
 

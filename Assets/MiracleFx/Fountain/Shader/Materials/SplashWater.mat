@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterTopDown2
-  m_Shader: {fileID: 4800000, guid: 333e7a5baf235db4590af1ec2f71cef9, type: 3}
+  m_Name: SplashWater
+  m_Shader: {fileID: 4800000, guid: 01d55d3124c72f54a87dccfb88df12bb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,18 +24,14 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0ec5e90b52149874397e5fff487bb4b6, type: 3}
-        m_Scale: {x: 5, y: 2}
-        m_Offset: {x: 0, y: 4.83}
+        m_Texture: {fileID: 2800000, guid: f5f98db1dbe45484784cd020f5c026e3, type: 3}
+        m_Scale: {x: 3, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Noise:
         m_Texture: {fileID: 2800000, guid: 65b8a7e1560fd434da74d023dfa7b642, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Scale: {x: 4, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _NoisePow: 0.05
-    - _WaterSpeed: 0.24
-    m_Colors:
-    - _WaterCol: {r: 1, g: 1, b: 1, a: 0.39607844}
-    - _WaterSpeed: {r: 0.1, g: 0.72, b: 0, a: 0.1}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []
