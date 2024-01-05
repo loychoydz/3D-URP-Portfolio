@@ -38,17 +38,27 @@ Shader "Unlit/WaterFace"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                float2 uv = v.uv - 0.5;
-                float uvRadius = length(uv);
-                float uvAngle = atan2(uv.x, uv.y);
-                o.uv = TRANSFORM_TEX(float2(uvRadius, uvAngle), _MainTex);
+                // float2 uv = v.uv - 0.5;
+                // float uvRadius = length(uv);
+                // float uvAngle = atan2(uv.x, uv.y);
+                // o.uv = TRANSFORM_TEX(float2(uvRadius, uvAngle), _MainTex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
+            }
+
+            float2 Unity_PolarCoordinates_float(float2 UV, float2 Center, float RadialScale, float LengthScale)
+            {
+                float2 delta = UV - Center;
+                float radius = length(delta) * 2 * RadialScale;
+                float angle = atan2(delta.x, delta.y) * 1.0/6.28 * LengthScale;
+                return float2(radius, angle);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                i.uv.x += -1 *  _Time.y;
-                fixed4 col = tex2D(_MainTex, i.uv);
+                // i.uv.x += -1 *  _Time.y;
+                float2 uvPolar = Unity_PolarCoordinates_float(i.uv, float2(0.5, 0.5), 1, 1);
+                fixed4 col = tex2D(_MainTex, uvPolar);
                 return col;
             }
             ENDCG
