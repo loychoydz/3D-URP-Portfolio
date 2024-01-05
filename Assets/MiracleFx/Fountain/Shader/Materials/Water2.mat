@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
+  m_Name: Water2
   m_Shader: {fileID: 4800000, guid: 3ad5812111253ff42a64d4fb1c121fcb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 376bb2ead7b674845b192785e58ddd5d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3acbdc79f89064048bb186cac37218fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
@@ -43,16 +43,16 @@ Material:
     m_Floats:
     - _Disappear: 0
     - _Displace: 0.1
-    - _LengthScale: 1.15
+    - _LengthScale: 1
     - _MaskOffset: 0
     - _NoisePow: 0.02
     - _OffsetSpeed: -0.26
-    - _PolarAngle: 1
-    - _PolarCenter: 0.483
-    - _PolarRadius: 1.38
+    - _PolarAngle: 4.04
+    - _PolarCenter: 0.5
+    - _PolarRadius: 1
     - _WaterSpeed: 0.24
     m_Colors:
-    - _Color: {r: 0.8160377, g: 0.99175847, b: 1, a: 1}
+    - _Color: {r: 0.6273585, g: 0.95876455, b: 1, a: 1}
     - _WaterCol: {r: 0, g: 0.9333334, b: 1, a: 1}
     - _WaterSpeed: {r: 0, g: 0.25, b: 0, a: 0.1}
   m_BuildTextureStacks: []

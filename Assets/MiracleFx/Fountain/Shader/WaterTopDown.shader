@@ -78,7 +78,7 @@ Shader "Unlit/WaterTopDown"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 fixed4 mask = tex2D(_Mask, i.uvMask); 
                 col *= _WaterCol;
-                float disappearTex = smoothstep(_Disappear, _Disappear + 0.02, mask.a + i.noiseTex.a);
+                float disappearTex = smoothstep(_Disappear, _Disappear + 0.02, mask.a * i.noiseTex.a);
                 col.a *= disappearTex;
                 return col;
             }
