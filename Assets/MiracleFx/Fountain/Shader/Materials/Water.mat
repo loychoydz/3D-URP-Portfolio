@@ -47,7 +47,7 @@ Material:
     - _MaskOffset: 0
     - _NoisePow: 0.02
     - _OffsetSpeed: -0.26
-    - _PolarAngle: 1
+    - _PolarAngle: 3.99
     - _PolarCenter: 0.483
     - _PolarRadius: 1.38
     - _WaterSpeed: 0.24

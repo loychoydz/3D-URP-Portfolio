@@ -37,9 +37,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Disappear: 0.18
+    - _Disappear: 0.08
     - _MaskOffset: 0.5
-    - _NoisePow: 0.06
+    - _NoisePow: 0.01
     - _WaterSpeed: 0.24
     m_Colors:
     - _WaterCol: {r: 0.7216981, g: 0.98204505, b: 1, a: 1}
