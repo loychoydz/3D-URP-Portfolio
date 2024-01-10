@@ -5,6 +5,8 @@ Shader "Miracle/Unlit/Particles/StylizedExplosion/Explosion"
         _MainTex ("Texture", 2D) = "white" {}
         _Step("Step", Range(0, 1)) = 0
         _Color ("Color", color) = (1, 1, 1, 1)
+        _TwirlStrength ("Twirl Strength", float) = 1
+        _Scale ("Scale", float) = 1
     }
     SubShader
     {
@@ -35,21 +37,33 @@ Shader "Miracle/Unlit/Particles/StylizedExplosion/Explosion"
 
             sampler2D _MainTex;
             float4 _MainTex_ST, _Color;
-            float _Step;
+            float _TwirlStrength, _Scale;
             
+            void Unity_Twirl_float(float2 UV, float2 Center, float Strength, float Scale, float2 Offset, out float2 Out)
+            {
+                float2 delta = UV - Center;
+                float angle = Strength * length(delta);
+                float x = cos(angle) * delta.x - sin(angle) * delta.y;
+                float y = sin(angle) * delta.x + cos(angle) * delta.y;
+                x *= Scale;
+                y *= Scale;
+                Out = float2(x + Center.x + Offset.x, y + Center.y + Offset.y);
+            }
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float2 center = (0.5, 0.5);
+                Unity_Twirl_float(i.uv, center, _TwirlStrength, _Scale, _MainTex_ST.zw, i.uv);
+
                 fixed4 col = tex2D(_MainTex, i.uv) * _Color;
-                col.a = step(_Step, col.a);
                 return col;
             }
             ENDCG
