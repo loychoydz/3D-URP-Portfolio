@@ -5,6 +5,7 @@ Shader "Unlit/TwoFaceTex"
         _MainTex ("Texture", 2D) = "white" {}
         _Col1 ("Color 1", color) = (1, 1, 1, 1)
         _Col2 ("Color 2", color) = (1, 1, 1, 1)
+        _TexOffset ("TexOffset", float) = 1
 
 
     }
@@ -28,6 +29,7 @@ Shader "Unlit/TwoFaceTex"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float4 color : COLOR;
             };
 
             struct v2f
@@ -35,10 +37,12 @@ Shader "Unlit/TwoFaceTex"
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float uv_mask : TEXCOORD1;
+                float4 color : COLOR;
             };
 
             sampler2D _MainTex;
             float4 _MainTex_ST, _Col1, _Col2;
+            float _TexOffset;
 
             v2f vert (appdata v)
             {
@@ -46,6 +50,7 @@ Shader "Unlit/TwoFaceTex"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.uv_mask = v.uv;
+                o.color = v.color;
 
                 return o;
             }
@@ -53,8 +58,8 @@ Shader "Unlit/TwoFaceTex"
             fixed4 frag (v2f i, half facing : VFACE) : SV_Target
             {
                 float mask = smoothstep(0.2, 0.4, 1 - i.uv_mask.x);
-                i.uv.x += _Time.y;
-                fixed4 col = tex2D(_MainTex, i.uv);
+                i.uv.x += _TexOffset * _Time.y;
+                fixed4 col = tex2D(_MainTex, i.uv) * i.color;
                 col = facing > 0 ? col * _Col1 : col * _Col2;
                 col.a *= mask;
                 return col;
