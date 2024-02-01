@@ -16,16 +16,16 @@ Shader "Unlit/TwoFaceTex"
 
         _Col1 ("Color 1", color) = (1, 1, 1, 1)
         _Col2 ("Color 2", color) = (1, 1, 1, 1)
-        [HDR]_EdgeCol ("EdgeCol", color) = (1, 1, 1, 1)
+        _TexOffset ("TexOffset", float) = 1
 
 
     }
     SubShader
     {
         Tags { "RenderType"="Transparent"  "Queue"="Transparent" }
-        Blend [_SrcBlend] [_DscBlend]
+        Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
-        Zwrite [_Zwrite]
+        Zwrite Off
         LOD 100
 
         Pass
@@ -48,14 +48,13 @@ Shader "Unlit/TwoFaceTex"
             {
                 float3 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float2 uv_mask : TEXCOORD1;
-                float2 uv_disappear : TEXCOORD2;
+                float uv_mask : TEXCOORD1;
                 float4 color : COLOR;
             };
 
-            sampler2D _MainTex, _DisappearTex;
-            float4 _MainTex_ST, _DisappearTex_ST, _Col1, _Col2, _EdgeCol;
-            float _TexOffsetSpeed;
+            sampler2D _MainTex;
+            float4 _MainTex_ST, _Col1, _Col2;
+            float _TexOffset;
 
             v2f vert (appdata v)
             {
@@ -73,7 +72,7 @@ Shader "Unlit/TwoFaceTex"
             fixed4 frag (v2f i, half facing : VFACE) : SV_Target
             {
                 float mask = smoothstep(0.2, 0.4, 1 - i.uv_mask.x);
-                i.uv.x += _TexOffsetSpeed * _Time.y;
+                i.uv.x += _TexOffset * _Time.y;
                 
                 fixed4 col = tex2D(_MainTex, i.uv) * i.color;
                 fixed4 disappearTex = tex2D(_DisappearTex, i.uv_disappear);
