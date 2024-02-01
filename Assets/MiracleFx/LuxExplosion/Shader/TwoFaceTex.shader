@@ -5,17 +5,21 @@ Shader "Unlit/TwoFaceTex"
         _MainTex ("Texture", 2D) = "white" {}
         _TexOffsetSpeed ("TexOffset", float) = 1
         _DisappearTex ("DisappearTex", 2D) = "white" {}
-
+        
         [Toggle] _Mask ("Mask", float) = 1
+        
         [Enum(UnityEngine.Rendering.BlendMode)]
         _SrcBlend ("SrcBlend", float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)]
         _DscBlend ("DscBlend", float) = 1
+        [Enum(UnityEngine.Rendering.CullMode)]
+        _Cull ("Cull", Integer) = 1
         [Enum(Off, 0, On, 1)]
         _Zwrite("Zwrite", float) = 0
 
         _Col1 ("Color 1", color) = (1, 1, 1, 1)
         _Col2 ("Color 2", color) = (1, 1, 1, 1)
+
         _TexOffset ("TexOffset", float) = 1
 
 
@@ -24,7 +28,7 @@ Shader "Unlit/TwoFaceTex"
     {
         Tags { "RenderType"="Transparent"  "Queue"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off
+        Cull [_Cull]
         Zwrite Off
         LOD 100
 
@@ -50,10 +54,11 @@ Shader "Unlit/TwoFaceTex"
                 float4 vertex : SV_POSITION;
                 float uv_mask : TEXCOORD1;
                 float4 color : COLOR;
+                float2 uv_disappear : TEXCOORD2;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST, _Col1, _Col2;
+            sampler2D _MainTex, _DisappearTex;
+            float4 _MainTex_ST, _DisappearTex_ST, _Col1, _Col2;
             float _TexOffset;
 
             v2f vert (appdata v)
@@ -85,9 +90,7 @@ Shader "Unlit/TwoFaceTex"
                 col.a;
                 #endif
 
-                float edge = smoothstep(i.uv.z, i.uv.z + 0.05, disappearTex.a);
-                col = lerp(_EdgeCol, col, edge);
-                col.a *= edge;
+                col.a *= step(i.uv.z, disappearTex.a);
 
                 return col;
 

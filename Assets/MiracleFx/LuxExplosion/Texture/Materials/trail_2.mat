@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sphere_Explosion
+  m_Name: trail_2
   m_Shader: {fileID: 4800000, guid: 9e28c08edbfa83941ac413ea9139abc0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -28,21 +28,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 49ee2fe913bd80f4b80b8d6d5813ceeb, type: 3}
-        m_Scale: {x: 3, y: 1}
+        m_Texture: {fileID: 2800000, guid: cc1cc61be2fe4764e8c36a54399a1ffe, type: 3}
+        m_Scale: {x: 2, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
     - _Cull: 1
     m_Floats:
-    - _Cull: 1
     - _DscBlend: 1
     - _Mask: 0
     - _SrcBlend: 5
     - _TexOffset: 0.2
-    - _TexOffsetSpeed: 0
+    - _TexOffsetSpeed: 1
     - _Zwrite: 1
     m_Colors:
-    - _Col1: {r: 0, g: 0.15294123, b: 1, a: 1}
-    - _Col2: {r: 0.6509434, g: 0, b: 0.16471058, a: 1}
-    - _EdgeCol: {r: 21.361256, g: 11.482866, b: 0, a: 1}
+    - _Col1: {r: 1, g: 1, b: 1, a: 1}
+    - _Col2: {r: 0.7735849, g: 0, b: 0.27095863, a: 1}
   m_BuildTextureStacks: []
