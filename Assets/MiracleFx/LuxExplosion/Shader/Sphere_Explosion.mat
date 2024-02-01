@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TwoFaceTex _2
+  m_Name: Sphere_Explosion
   m_Shader: {fileID: 4800000, guid: 9e28c08edbfa83941ac413ea9139abc0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -16,23 +16,31 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DisappearTex:
+        m_Texture: {fileID: 2800000, guid: 16dbac5874da4de4781cbf08044614b3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 521feaa5e9072334699f15f79f6a5494, type: 3}
+        m_Texture: {fileID: 2800000, guid: 16dbac5874da4de4781cbf08044614b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _TexOffset: 2
+    - _DscBlend: 10
+    - _Mask: 0
+    - _SrcBlend: 5
+    - _TexOffset: 1
+    - _TexOffsetSpeed: 0
+    - _Zwrite: 1
     m_Colors:
-    - _BackColor: {r: 0, g: 0, b: 1, a: 1}
-    - _Col1: {r: 1, g: 0.73363703, b: 0.5518868, a: 1}
-    - _Col2: {r: 1, g: 0.8416576, b: 0.6367924, a: 1}
-    - _FrontColor: {r: 1, g: 0, b: 0, a: 1}
+    - _Col1: {r: 1, g: 0, b: 0.5116615, a: 1}
+    - _Col2: {r: 1, g: 0.57427293, b: 0.43137252, a: 1}
+    - _EdgeCol: {r: 21.361256, g: 11.482866, b: 0, a: 1}
   m_BuildTextureStacks: []
