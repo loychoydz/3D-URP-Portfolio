@@ -16,6 +16,7 @@ Shader "Unlit/TwoFaceTex"
 
         _Col1 ("Color 1", color) = (1, 1, 1, 1)
         _Col2 ("Color 2", color) = (1, 1, 1, 1)
+        [HDR]_EdgeCol ("EdgeCol", color) = (1, 1, 1, 1)
 
 
     }
@@ -53,7 +54,7 @@ Shader "Unlit/TwoFaceTex"
             };
 
             sampler2D _MainTex, _DisappearTex;
-            float4 _MainTex_ST, _DisappearTex_ST, _Col1, _Col2;
+            float4 _MainTex_ST, _DisappearTex_ST, _Col1, _Col2, _EdgeCol;
             float _TexOffsetSpeed;
 
             v2f vert (appdata v)
@@ -85,7 +86,9 @@ Shader "Unlit/TwoFaceTex"
                 col.a;
                 #endif
 
-                col.a *= step(i.uv.z, disappearTex.a);
+                float edge = smoothstep(i.uv.z, i.uv.z + 0.05, disappearTex.a);
+                col = lerp(_EdgeCol, col, edge);
+                col.a *= edge;
 
                 return col;
 
