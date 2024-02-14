@@ -2,15 +2,20 @@ Shader "Unlit/SoftParticleTest"
 {
     Properties
     {
+        [Header(Blend Mode)]
+        [Enum(UnityEngine.Rendering.BlendMode)]
+        _SrcBlend ("SrcFactor", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)]
+        _DstBlend ("DstFactor", float) = 1
+        [Space(10)]
         _MainTex ("Texture", 2D) = "white" {}
         _Noise ("Noise", 2D) = "white" {}
-
         _FadeNear ("Fade Amount", Range(0, 1)) = 1
     }
     SubShader
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
-        Blend SrcAlpha One
+        Blend [_SrcBlend] [_DstBlend]
         Zwrite Off
         Ztest Off
         Cull Off
