@@ -54,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise:
-        m_Texture: {fileID: 2800000, guid: d73f61e0c7ba27d4192b3a211a7b74f7, type: 3}
+        m_Texture: {fileID: 2800000, guid: ef46131bb69af034c821574116ab89e5, type: 3}
         m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -76,7 +76,7 @@ Material:
     - _DstBlend: 1
     - _DstBlendAlpha: 0
     - _FadeAmount: 15
-    - _FadeNear: 0.305
+    - _FadeNear: 0.43
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _Mode: 0

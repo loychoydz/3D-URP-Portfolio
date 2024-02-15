@@ -72,4 +72,5 @@ Shader "Unlit/Freshnel"
             ENDCG
         }
     }
+    Fallback "VertexLit"
 }
