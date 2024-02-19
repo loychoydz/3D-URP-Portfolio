@@ -65,9 +65,9 @@ Shader "Unlit/Magma"
                 return o;
             }
 
-            void Unity_Remap_float(float In, float2 InMinMax, float2 OutMinMax, out float Out)
+            float Unity_Remap_float(float In, float2 InMinMax, float2 OutMinMax)
             {
-                Out = OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+                return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -77,11 +77,8 @@ Shader "Unlit/Magma"
                 float edgeL = smoothstep( _EdgeSide, _EdgeSide + 0.2, i.uvMask.x);
                 float edgeR = smoothstep(_EdgeSide, _EdgeSide + 0.2, 1 - i.uvMask.x);
 
-                float holeSize;
-                Unity_Remap_float(sin(_Time.y), float2(-1, 1), float2(0.05,_HoleSize), holeSize);
-
-
-
+                float holeSize = Unity_Remap_float(sin(_Time.y), float2(-1, 1), float2(0.05,_HoleSize));
+                
                 i.uv.y += _TexOffset.y * _Time.y;
                 i.uv_cell_tex.y += _TexOffset.w * _Time.y;
 
@@ -93,12 +90,11 @@ Shader "Unlit/Magma"
                 edgeR = step(holeSize, col.a * cellTex.a * edgeR);
 
                 float alpha = col.a * cellTex.a + mask;
-                // Unity_Remap_float(alpha, float2(0, 2), float2(0,1), alpha);
                 float alphaShades = floor(alpha * _Shades)/_Shades;
 
                 col = lerp(_Color1, _Color2, alphaShades);
                 col.a = step(holeSize, alpha * edgeBot);
-                col.a = col.a * edgeL * edgeR;
+                col.a *= edgeL * edgeR;
 
 
                 return col;

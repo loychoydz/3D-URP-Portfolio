@@ -76,7 +76,7 @@ Material:
     - _DstBlend: 1
     - _DstBlendAlpha: 0
     - _FadeAmount: 15
-    - _FadeNear: 0
+    - _FadeNear: 0.617
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _Mode: 0

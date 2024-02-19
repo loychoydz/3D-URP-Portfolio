@@ -40,15 +40,15 @@ Material:
     - _Displacement: 1.2
     - _EdgeAlpha: 0.02
     - _EdgeBot: 0.02
-    - _EdgeL: 0.045
-    - _EdgeMask: 0.52
+    - _EdgeL: 0.02
+    - _EdgeMask: 0.47
     - _EdgeMask2: 0
-    - _EdgeR: 0.046
-    - _EdgeSide: 0.024
-    - _HoleSize: 0.05
-    - _Shades: 4.73
+    - _EdgeR: 0.88
+    - _EdgeSide: 0.019
+    - _HoleSize: 0.15
+    - _Shades: 4
     m_Colors:
-    - _Color1: {r: 0.8679245, g: 0.038166814, b: 0, a: 1}
-    - _Color2: {r: 1, g: 0.8035208, b: 0, a: 1}
-    - _TexOffset: {r: 0, g: 0.15, b: 0, a: 0.15}
+    - _Color1: {r: 0.6415094, g: 0, b: 0.030757796, a: 1}
+    - _Color2: {r: 1, g: 0.73844755, b: 0.16470587, a: 1}
+    - _TexOffset: {r: 0, g: 0.1, b: 0, a: 0.1}
   m_BuildTextureStacks: []
