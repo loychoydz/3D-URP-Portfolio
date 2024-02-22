@@ -10055,7 +10055,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &335774552
 Transform:
   m_ObjectHideFlags: 0
@@ -24895,13 +24895,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749192767}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45059088, y: 0.07875193, z: 0.0922175, w: 0.8844557}
-  m_LocalPosition: {x: 0.07, y: -0.25, z: 0.19}
+  m_LocalRotation: {x: 0.73095447, y: 0.04161287, z: 0.11390479, w: 0.6715652}
+  m_LocalPosition: {x: 0.07, y: 0.36, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1836744149}
   m_Father: {fileID: 1575192940}
-  m_LocalEulerAnglesHint: {x: 51.493, y: 20.93, z: 22.085}
+  m_LocalEulerAnglesHint: {x: 76.48, y: 107.95, z: 113.852}
 --- !u!199 &749192769
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -44438,7 +44439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1010179227
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -64146,7 +64147,6 @@ Transform:
   - {fileID: 335774552}
   - {fileID: 958094526}
   - {fileID: 749192768}
-  - {fileID: 1836744149}
   m_Father: {fileID: 2046244359}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &1575192941
@@ -89014,12 +89014,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836744148}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45059088, y: 0.07875193, z: 0.0922175, w: 0.8844557}
-  m_LocalPosition: {x: 0.07, y: -0.25, z: 0.19}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.06794117, y: 0.006450834, z: -0.015568694}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1575192940}
+  m_Father: {fileID: 749192768}
   m_LocalEulerAnglesHint: {x: 51.493, y: 20.93, z: 22.085}
 --- !u!199 &1836744150
 ParticleSystemRenderer:
@@ -89349,7 +89349,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 9
+      scalar: 9.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -89402,7 +89402,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 9
+      scalar: 9.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -89455,7 +89455,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12.08
+      scalar: 9.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2

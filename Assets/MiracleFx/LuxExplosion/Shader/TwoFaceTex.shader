@@ -31,7 +31,8 @@ Shader "Unlit/TwoFaceTex"
         Tags { "RenderType"="Transparent"  "Queue"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
         Cull [_Cull]
-        Zwrite Off
+        Zwrite On
+        Ztest Less
         LOD 100
 
         Pass

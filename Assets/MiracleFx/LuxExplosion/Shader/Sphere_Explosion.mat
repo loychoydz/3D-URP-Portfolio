@@ -27,14 +27,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Displacement:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 49ee2fe913bd80f4b80b8d6d5813ceeb, type: 3}
         m_Scale: {x: 3, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints:
-    - _Cull: 1
+    - _Cull: 0
     m_Floats:
     - _Cull: 1
+    - _DisplacementAmount: 0
     - _DscBlend: 1
     - _Mask: 0
     - _SrcBlend: 5
@@ -42,7 +51,7 @@ Material:
     - _TexOffsetSpeed: 0
     - _Zwrite: 1
     m_Colors:
-    - _Col1: {r: 0, g: 0.15294123, b: 1, a: 1}
+    - _Col1: {r: 0.6509804, g: 0, b: 0.16470589, a: 1}
     - _Col2: {r: 0.6509434, g: 0, b: 0.16471058, a: 1}
     - _EdgeCol: {r: 21.361256, g: 11.482866, b: 0, a: 1}
   m_BuildTextureStacks: []
