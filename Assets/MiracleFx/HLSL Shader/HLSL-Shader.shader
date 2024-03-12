@@ -36,15 +36,17 @@ Shader "Unlit/HLSL-Shader"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
 
-            struct appdata
+            //struct appdata
+            struct Attributes // VertexInput
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float2 uv : TEXCOORD0; // TEXCOORD0-7 
             };
 
-            struct v2f
+            // struct v2f
+            struct Vayrings // FragmentInput
             {
-                float2 uv : TEXCOORD0;
+                float2 uv : TEXCOORD0; // TEXCOORD0-7 
                 float4 vertex : SV_POSITION;
             };
 
@@ -63,7 +65,7 @@ Shader "Unlit/HLSL-Shader"
             // the texture tiling & offset values (e.g. _ExampleTexture_ST, 
             // where S refers to scale and T refers to translate) and TexelSize 
             // (e.g. _ExampleTexture_TexelSize) if they are used.
-            
+
             v2f vert (appdata v)
             {
                 v2f o;
