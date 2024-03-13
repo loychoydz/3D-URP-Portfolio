@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Crate_PBR
+  m_Name: Crate_PBR_Bot
   m_Shader: {fileID: 4800000, guid: 8b05fee01d3f96a4f9bc5e55aaf0ab17, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
