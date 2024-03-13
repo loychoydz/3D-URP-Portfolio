@@ -115,8 +115,8 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 			// Note, v11 changes these to :
 			// #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 
-			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+			// #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+			// #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile_fragment _ _SHADOWS_SOFT
 			#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION // v10+ only (for SSAO support)
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING // v10+ only, renamed from "_MIXED_LIGHTING_SUBTRACTIVE"
@@ -125,7 +125,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 			// Unity Keywords
 			#pragma multi_compile _ LIGHTMAP_ON
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile_fog
+			// #pragma multi_compile_fog
 
 			// Structs
 
@@ -133,9 +133,11 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 
 			struct Attributes {
 				float4 positionOS	: POSITION;
+
 				#ifdef _NORMALMAP
-					float4 tangentOS 	: TANGENT;
+				float4 tangentOS 	: TANGENT;
 				#endif
+
 				float4 normalOS		: NORMAL;
 				float2 uv		    : TEXCOORD0;
 				float2 lightmapUV	: TEXCOORD1;
@@ -156,17 +158,18 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 					half3 normalWS					: TEXCOORD3;
 				#endif
 				
-				#ifdef _ADDITIONAL_LIGHTS_VERTEX
-					half4 fogFactorAndVertexLight	: TEXCOORD6; // x: fogFactor, yzw: vertex light
-				#else
-					half  fogFactor					: TEXCOORD6;
-				#endif
+				// #ifdef _ADDITIONAL_LIGHTS_VERTEX
+				// 	half4 fogFactorAndVertexLight	: TEXCOORD6; // x: fogFactor, yzw: vertex light
+				// #else
+				// 	half  fogFactor					: TEXCOORD6;
+				// #endif
 
-				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-					float4 shadowCoord 				: TEXCOORD7;
-				#endif
+				// #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+				// 	float4 shadowCoord 				: TEXCOORD7;
+				// #endif
 
 				float4 color						: COLOR;
+				float2 uv_lightsweep : TEXCOORD6;
 			};
 
 			#include "PBRInput.hlsl"
@@ -178,6 +181,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				Varyings OUT;
 
 				VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS.xyz);
+
 				#ifdef _NORMALMAP
 					VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normalOS.xyz, IN.tangentOS);
 				#else
@@ -189,7 +193,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 
 				half3 viewDirWS = GetWorldSpaceViewDir(positionInputs.positionWS);
 				half3 vertexLight = VertexLighting(positionInputs.positionWS, normalInputs.normalWS);
-				half fogFactor = ComputeFogFactor(positionInputs.positionCS.z);
+				// half fogFactor = ComputeFogFactor(positionInputs.positionCS.z);
 				
 				#ifdef _NORMALMAP
 					OUT.normalWS = half4(normalInputs.normalWS, viewDirWS.x);
@@ -203,18 +207,19 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				OUTPUT_LIGHTMAP_UV(IN.lightmapUV, unity_LightmapST, OUT.lightmapUV);
 				OUTPUT_SH(OUT.normalWS.xyz, OUT.vertexSH);
 
-				#ifdef _ADDITIONAL_LIGHTS_VERTEX
-					OUT.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
-				#else
-					OUT.fogFactor = fogFactor;
-				#endif
+				// #ifdef _ADDITIONAL_LIGHTS_VERTEX
+				// 	OUT.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+				// #else
+				// 	OUT.fogFactor = fogFactor;
+				// #endif
 
-				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-					OUT.shadowCoord = GetShadowCoord(positionInputs);
-				#endif
+				// #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+				// 	OUT.shadowCoord = GetShadowCoord(positionInputs);
+				// #endif
 
 				OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
 				OUT.color = IN.color;
+				OUT.uv_lightsweep = TRANSFORM_TEX(IN.positionOS.xy, _MetallicLightSweepMap);
 				return OUT;
 			}
 
@@ -231,15 +236,16 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				InitializeInputData(IN, surfaceData.normalTS, inputData);
 
 				// Declare Texture
-				half metallic_lightsweep = SAMPLE_TEXTURE2D(_MetallicLightSweepMap, sampler_MetallicLightSweepMap, IN.uv).r;
+				half metallic_lightsweep = SAMPLE_TEXTURE2D(_MetallicLightSweepMap, sampler_MetallicLightSweepMap, IN.uv_lightsweep).r;
 
-				surfaceData.metallic -= metallic_lightsweep;
+				surfaceData.metallic *= metallic_lightsweep;
 
 				// Simple Lighting (Lambert & BlinnPhong)
 				half4 color = UniversalFragmentPBR(inputData, surfaceData);
+				// color += metallic_lightsweep.r;
 
 				// Fog
-				color.rgb = MixFog(color.rgb, inputData.fogCoord);
+				// color.rgb = MixFog(color.rgb, inputData.fogCoord);
 				//color.a = OutputAlpha(color.a, _Surface);
 				return color;
 			}

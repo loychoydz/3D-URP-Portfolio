@@ -60,22 +60,22 @@ void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData
 	viewDirWS = SafeNormalize(viewDirWS);
 	inputData.viewDirectionWS = viewDirWS;
 
-	#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-		inputData.shadowCoord = input.shadowCoord;
-	#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
-		inputData.shadowCoord = TransformWorldToShadowCoord(inputData.positionWS);
-	#else
-		inputData.shadowCoord = float4(0, 0, 0, 0);
-	#endif
+	// #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+	// 	inputData.shadowCoord = input.shadowCoord;
+	// #elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+	// 	inputData.shadowCoord = TransformWorldToShadowCoord(inputData.positionWS);
+	// #else
+	// 	inputData.shadowCoord = float4(0, 0, 0, 0);
+	// #endif
 
 	// Fog
-	#ifdef _ADDITIONAL_LIGHTS_VERTEX
-		inputData.fogCoord = input.fogFactorAndVertexLight.x;
-		inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
-	#else
-		inputData.fogCoord = input.fogFactor;
-		inputData.vertexLighting = half3(0, 0, 0);
-	#endif
+	// #ifdef _ADDITIONAL_LIGHTS_VERTEX
+	// 	inputData.fogCoord = input.fogFactorAndVertexLight.x;
+	// 	inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
+	// #else
+	// 	inputData.fogCoord = input.fogFactor;
+	// 	inputData.vertexLighting = half3(0, 0, 0);
+	// #endif
 
 	/* in v11/v12?, could use :
 	#ifdef _ADDITIONAL_LIGHTS_VERTEX
