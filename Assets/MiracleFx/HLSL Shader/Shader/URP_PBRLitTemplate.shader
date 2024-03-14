@@ -19,7 +19,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 		[Toggle(_METALLICSPECGLOSSMAP)] _MetallicSpecGlossMapToggle ("Use Metallic/Specular Gloss Map", Float) = 0
 		_MetallicSpecGlossMap("Specular or Metallic Map", 2D) = "black" {}
 		[Space(10)]
-		_MetallicLightSweepMap("Metallic Lightsweep", 2D) = "white" {}
+		_LightSweepTex("LightSweep Tex", 2D) = "white" {}
 		// Usually this is split into _SpecGlossMap and _MetallicGlossMap, but I find
 		// that a bit annoying as I'm not using a custom ShaderGUI to show/hide them.
 
@@ -60,15 +60,15 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 		HLSLINCLUDE
 		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-		TEXTURE2D(_MetallicLightSweepMap);
-		SAMPLER(sampler_MetallicLightSweepMap);
+		TEXTURE2D(_LightSweepTex);
+		SAMPLER(sampler_LightSweepTex);
 
 		CBUFFER_START(UnityPerMaterial)
 		float4 _BaseMap_ST;
 		float4 _BaseColor;
 		float4 _EmissionColor;
 		float4 _SpecColor;
-		float4 _MetallicLightSweepMap_ST;
+		float4 _LightSweepTex_ST;
 		float _Metallic;
 		float _Smoothness;
 		// float _OcclusionStrength;
@@ -157,7 +157,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				#else
 					half3 normalWS					: TEXCOORD3;
 				#endif
-				
+
 				// #ifdef _ADDITIONAL_LIGHTS_VERTEX
 				// 	half4 fogFactorAndVertexLight	: TEXCOORD6; // x: fogFactor, yzw: vertex light
 				// #else
@@ -219,7 +219,8 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 
 				OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
 				OUT.color = IN.color;
-				OUT.uv_lightsweep = TRANSFORM_TEX(IN.positionOS.xy, _MetallicLightSweepMap);
+				float2 maxUV = float2(max(0,IN.positionOS.x), max(0,IN.positionOS.y));
+				OUT.uv_lightsweep = TRANSFORM_TEX(IN.positionOS.xy / maxUV, _LightSweepTex);
 				return OUT;
 			}
 
@@ -235,19 +236,20 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				InputData inputData;
 				InitializeInputData(IN, surfaceData.normalTS, inputData);
 
-				// Declare Texture
-				half metallic_lightsweep = SAMPLE_TEXTURE2D(_MetallicLightSweepMap, sampler_MetallicLightSweepMap, IN.uv_lightsweep).r;
+				//Fresnel
 
-				surfaceData.metallic *= metallic_lightsweep;
+				// Declare Texture
+				half4 lightsweep = SAMPLE_TEXTURE2D(_LightSweepTex, sampler_LightSweepTex, IN.uv_lightsweep);
+
 
 				// Simple Lighting (Lambert & BlinnPhong)
 				half4 color = UniversalFragmentPBR(inputData, surfaceData);
-				// color += metallic_lightsweep.r;
 
 				// Fog
 				// color.rgb = MixFog(color.rgb, inputData.fogCoord);
 				//color.a = OutputAlpha(color.a, _Surface);
-				return color;
+				// return color;
+				return lightsweep;
 			}
 			ENDHLSL
 		}
