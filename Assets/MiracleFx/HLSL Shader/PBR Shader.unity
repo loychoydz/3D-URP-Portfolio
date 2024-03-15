@@ -352,11 +352,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9acbb8a7ba265114c8c33317a0483bd7, type: 2}
+      objectReference: {fileID: 2100000, guid: 3ce1a238cc5129a4693456754afcd9bf, type: 2}
     - target: {fileID: 919132149155446097, guid: 44e407b561c3c784a9e2b699b0f1a889,
         type: 3}
       propertyPath: m_Name
       value: SciFi Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 44e407b561c3c784a9e2b699b0f1a889,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6647022707905100941, guid: 44e407b561c3c784a9e2b699b0f1a889,
         type: 3}

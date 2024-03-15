@@ -7,13 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Crate_PBR_Bot
+  m_Name: PBR_Test
   m_Shader: {fileID: 4800000, guid: 8b05fee01d3f96a4f9bc5e55aaf0ab17, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _EMISSION
-  - _NORMALMAP
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -26,55 +24,42 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 570dece4149c17f48b9f7e6ade302217, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 9ec3d5ef933537c41b876bc3a229884a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 622abc4b588a354438c3df2c63e294a4, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LightSweepTex:
-        m_Texture: {fileID: 2800000, guid: c2c170f97b5df9c4785a5ad431c28799, type: 3}
-        m_Scale: {x: 0.1, y: 1}
-        m_Offset: {x: 0, y: 0.14}
-    - _MetallicLightSweepMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: -0.63, y: 0}
-    - _MetallicSpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
+    - _MetallicSpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaTestToggle: 0
-    - _BumpScale: 1.15
-    - _Cutoff: 0.5
-    - _Emission: 1
+    - _BumpScale: 1
+    - _Emission: 0
     - _EnvironmentalReflections: 0
-    - _FresnelPower: 2
-    - _LightSweepSpeed: -0.2
-    - _Metallic: 1
+    - _FresnelPower: 2.09
+    - _LightSweepSpeed: 0
+    - _Metallic: 0
     - _MetallicSpecGlossMapToggle: 0
     - _MetallicSpecToggle: 0
-    - _NormalMapToggle: 1
-    - _OcclusionStrength: 1
-    - _OcclusionToggle: 0
+    - _NormalMapToggle: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
     - _SpecularHighlights: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.7207546, g: 2.623929, b: 2.9960785, a: 1}
-    - _FresnelCol: {r: 3.6603773, g: 2.4902453, b: 0.6043075, a: 1}
-    - _LightSweepCol: {r: 2, g: 2, b: 2, a: 0}
+    - _BaseColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FresnelCol: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_BuildTextureStacks: []
