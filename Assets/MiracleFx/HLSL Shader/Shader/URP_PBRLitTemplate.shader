@@ -44,11 +44,12 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 		[Toggle(_LIGHTSWEEP)] _LightSweep ("Light Sweep", float) = 0
 		_LightSweepTex("LightSweep Tex", 2D) = "white" {}
 		[HDR]_LSColor("LightSweep Color", color) = (1, 1, 1, 1)
-		_LightSweepCtrl ("LSCtrl Offset/XY Angel/Z", vector) = (0, 0, 0, 0)
+		_LightSweepCtrl ("LSCtrl Offset/XY Angel-Frequence/ZW", vector) = (0, 0, 0, 0)
 		
 		[Space(10)]
 		[HDR]_FresnelCol ("Fresnel Col", color) = (1, 1, 1, 1)
 		_FresnelPower("Freshnel Pow", float) = 1 
+		// _FresnelTex("Freshnel Text", 2D) = "white" {}
 
 		[Space(20)]
 		[Toggle(_SPECULARHIGHLIGHTS_OFF)] _SpecularHighlights("Turn Specular Highlights Off", Float) = 0
@@ -69,15 +70,15 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 		HLSLINCLUDE
 		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-		TEXTURE2D(_LightSweepTex);
-		SAMPLER(sampler_LightSweepTex);
+		TEXTURE2D(_LightSweepTex); TEXTURE2D(_FresnelTex);
+		SAMPLER(sampler_LightSweepTex); SAMPLER(sampler_FresnelTex);
 
 		CBUFFER_START(UnityPerMaterial)
 		float4 _BaseMap_ST;
 		float4 _BaseColor;
 		float4 _EmissionColor;
 		float4 _SpecColor, _FresnelCol, _LSColor;
-		float4 _LightSweepTex_ST, _LightSweepCtrl;
+		float4 _LightSweepTex_ST, _LightSweepCtrl, _FresnelTex_ST;
 		float _Metallic, _Smoothness, _Cutoff, _BumpScale, _FresnelPower;
 		// float _OcclusionStrength;
 		CBUFFER_END
@@ -176,7 +177,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				// #endif
 
 				float4 color						: COLOR;
-				float2 uv_lightsweep : TEXCOORD6;
+				float4 uv_lightsweep_fresnel : TEXCOORD6;
 			};
 
 			#include "PBRInput.hlsl"
@@ -248,9 +249,10 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				OUT.color = IN.color;
 				// Create UV by vertex positonOS
 				float2 uv_vertexPosOS = float2 (IN.positionOS.x / 2, IN.positionOS.y /4);
-				OUT.uv_lightsweep = TRANSFORM_TEX(uv_vertexPosOS, _LightSweepTex);
+				OUT.uv_lightsweep_fresnel.xy = TRANSFORM_TEX(uv_vertexPosOS, _LightSweepTex);
+				// OUT.uv_lightsweep_fresnel.zw = TRANSFORM_TEX(uv_vertexPosOS, _FresnelTex);
 
-				Unity_Rotate_Radians_float(OUT.uv_lightsweep, float2(0.5, 0.5), _LightSweepCtrl.z, OUT.uv_lightsweep);
+				Unity_Rotate_Radians_float(OUT.uv_lightsweep_fresnel.xy, float2(0.5, 0.5), _LightSweepCtrl.z, OUT.uv_lightsweep_fresnel.xy);
 				return OUT;
 			}
 
@@ -269,22 +271,20 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				InitializeInputData(IN, surfaceData.normalTS, inputData);
 
 				//Fresnel
+				// half4 fresnel_noise = SAMPLE_TEXTURE2D(_FresnelTex, sampler_FresnelTex, IN.uv_lightsweep_fresnel.zw);
 				float3 viewDir = inputData.viewDirectionWS;
 				float dot_product = dot(viewDir, inputData.normalWS);
 				float4 fresnel = saturate(pow(1 - dot_product, _FresnelPower)) * _FresnelCol;
 
 
 				//Texture LightSweep
-				float2 uv_lightsweep = float2(IN.uv_lightsweep.x - _Time.x * _LightSweepCtrl.x, IN.uv_lightsweep.y - _Time.y * _LightSweepCtrl.y);
-				half4 lightsweep = SAMPLE_TEXTURE2D(_LightSweepTex, sampler_LightSweepTex, uv_lightsweep) * _LSColor;
-				float sin = Unity_Remap_float((_Time.y * _LightSweepCtrl.y), float2(-1, 1), float2(0, 1));
-				// lightsweep *= sin;
-				lightsweep = float4(surfaceData.albedo * lightsweep.rgb, lightsweep.a);
-
+				float2 uv_lightsweep_fresnel = float2(IN.uv_lightsweep_fresnel.x - _Time.x * _LightSweepCtrl.x, IN.uv_lightsweep_fresnel.y - _Time.y * _LightSweepCtrl.y);
+				half4 lightsweep = SAMPLE_TEXTURE2D(_LightSweepTex, sampler_LightSweepTex, uv_lightsweep_fresnel) * _LSColor;
+				float lightsweep_frequence = smoothstep(_LightSweepCtrl.w, _LightSweepCtrl.w + 0.2, Unity_Remap_float(sin(_Time.y * _LightSweepCtrl.y), float2(-1, 1), float2(0, 1)));
+				lightsweep = float4(surfaceData.albedo * lightsweep.rgb, lightsweep.a) * lightsweep_frequence * dot_product;
 
 				// Simple Lighting (Lambert & BlinnPhong)
 				half4 color = UniversalFragmentPBR(inputData, surfaceData);
-
 				#ifdef _LIGHTSWEEP
 				color += lightsweep;
 				#endif
@@ -293,9 +293,8 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				// Fog
 				// color.rgb = MixFog(color.rgb, inputData.fogCoord);
 				//color.a = OutputAlpha(color.a, _Surface);
-				// return color;
-				// dot_product = step(0.6, dot_product);
-				return float4 (sin, 0, 0, 1);
+				return color;
+				// return float4 (ls_sin_time, 0, 0, 1);
 			}
 			ENDHLSL
 		}
