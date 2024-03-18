@@ -41,8 +41,12 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 		[NoScaleOffset]_EmissionMap("Emission Map", 2D) = "black" {}
 
 		[Space(10)]
+		[Toggle(_LIGHTSWEEP)] _LightSweep ("Light Sweep", float) = 0
 		_LightSweepTex("LightSweep Tex", 2D) = "white" {}
-		_LightSweepSpeed("LightSweep Speed", float) = 0 
+		[HDR]_LSColor("LightSweep Color", color) = (1, 1, 1, 1)
+		_LightSweepCtrl ("LSCtrl Offset/XY Angel/Z", vector) = (0, 0, 0, 0)
+		
+		[Space(10)]
 		[HDR]_FresnelCol ("Fresnel Col", color) = (1, 1, 1, 1)
 		_FresnelPower("Freshnel Pow", float) = 1 
 
@@ -72,13 +76,10 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 		float4 _BaseMap_ST;
 		float4 _BaseColor;
 		float4 _EmissionColor;
-		float4 _SpecColor, _FresnelCol;
-		float4 _LightSweepTex_ST;
-		float _Metallic;
-		float _Smoothness;
+		float4 _SpecColor, _FresnelCol, _LSColor;
+		float4 _LightSweepTex_ST, _LightSweepCtrl;
+		float _Metallic, _Smoothness, _Cutoff, _BumpScale, _FresnelPower;
 		// float _OcclusionStrength;
-		float _Cutoff;
-		float _BumpScale, _FresnelPower, _LightSweepSpeed;
 		CBUFFER_END
 		ENDHLSL
 
@@ -101,6 +102,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 			#pragma shader_feature_local_fragment _EMISSION
 			#pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
 			#pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature_local_fragment _LIGHTSWEEP
 			// #pragma shader_feature_local_fragment _OCCLUSIONMAP
 
 			//#pragma shader_feature_local _PARALLAXMAP // v10+ only
@@ -194,9 +196,14 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				UV += Center;
 				Out = UV;
 			}
+			
+			//Remap
+			float Unity_Remap_float(float In, float2 InMinMax, float2 OutMinMax)
+			{
+				return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+			}
 
 			// Vertex Shader
-
 			Varyings LitPassVertex(Attributes IN) {
 				Varyings OUT;
 
@@ -243,7 +250,7 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 				float2 uv_vertexPosOS = float2 (IN.positionOS.x / 2, IN.positionOS.y /4);
 				OUT.uv_lightsweep = TRANSFORM_TEX(uv_vertexPosOS, _LightSweepTex);
 
-				Unity_Rotate_Radians_float(OUT.uv_lightsweep, float2(0.5, 0.5), 10, OUT.uv_lightsweep);
+				Unity_Rotate_Radians_float(OUT.uv_lightsweep, float2(0.5, 0.5), _LightSweepCtrl.z, OUT.uv_lightsweep);
 				return OUT;
 			}
 
@@ -263,27 +270,32 @@ Shader "Miracle/URPTemplates/PBRLitShaderExample"
 
 				//Fresnel
 				float3 viewDir = inputData.viewDirectionWS;
-				float4 fresnel = saturate(pow(1 - dot(viewDir, inputData.normalWS), _FresnelPower)) * _FresnelCol;
+				float dot_product = dot(viewDir, inputData.normalWS);
+				float4 fresnel = saturate(pow(1 - dot_product, _FresnelPower)) * _FresnelCol;
 
 
 				//Texture LightSweep
-				float2 uv_lightsweep = float2(IN.uv_lightsweep.x, IN.uv_lightsweep.y + _Time.y * _LightSweepSpeed);
-				half4 lightsweep = SAMPLE_TEXTURE2D(_LightSweepTex, sampler_LightSweepTex, uv_lightsweep) * _FresnelCol;
+				float2 uv_lightsweep = float2(IN.uv_lightsweep.x - _Time.x * _LightSweepCtrl.x, IN.uv_lightsweep.y - _Time.y * _LightSweepCtrl.y);
+				half4 lightsweep = SAMPLE_TEXTURE2D(_LightSweepTex, sampler_LightSweepTex, uv_lightsweep) * _LSColor;
+				float sin = Unity_Remap_float((_Time.y * _LightSweepCtrl.y), float2(-1, 1), float2(0, 1));
+				// lightsweep *= sin;
 				lightsweep = float4(surfaceData.albedo * lightsweep.rgb, lightsweep.a);
 
 
 				// Simple Lighting (Lambert & BlinnPhong)
 				half4 color = UniversalFragmentPBR(inputData, surfaceData);
 
-
+				#ifdef _LIGHTSWEEP
 				color += lightsweep;
+				#endif
 				color += fresnel;
 
 				// Fog
 				// color.rgb = MixFog(color.rgb, inputData.fogCoord);
 				//color.a = OutputAlpha(color.a, _Surface);
-				return color;
-				// return float4 (fresnel, fresnel, fresnel, 1);
+				// return color;
+				// dot_product = step(0.6, dot_product);
+				return float4 (sin, 0, 0, 1);
 			}
 			ENDHLSL
 		}

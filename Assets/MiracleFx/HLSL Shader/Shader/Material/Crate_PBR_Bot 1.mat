@@ -60,7 +60,7 @@ Material:
     - _Cutoff: 0.5
     - _Emission: 1
     - _EnvironmentalReflections: 0
-    - _FresnelPower: 2.52
+    - _FresnelPower: 3
     - _LightSweepSpeed: 0
     - _Metallic: 1
     - _MetallicSpecGlossMapToggle: 0
